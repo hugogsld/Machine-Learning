@@ -1,10 +1,13 @@
 # Machine Learning Final Report
 
-**Online Shoppers Purchasing Intention Dataset**
-
+**Online Shoppers Purchasing Intention Dataset**  
 Hugo GESLAND – December 2024
 
-## Summary:
+## Introduction
+
+This report analyzes the behavior of website visitors and their decision-making process regarding online purchases. The primary aim is to understand the factors influencing whether a visitor makes a purchase or not. By applying machine learning algorithms to the **Online Shoppers Purchasing Intention Dataset**, we seek to answer key questions about how timing, visitor type, and web metrics affect revenue generation. This study will utilize techniques such as Logistic Regression and Random Forest to build predictive models, compare their performance, and provide insights for improving e-commerce strategies.
+
+## Table of Contents:
 
 1. [Introduction to Analyzing E-Commerce Conversion Dynamics](#i-introduction-to-analyzing-e-commerce-conversion-dynamics)
 2. [Justification and Source of Dataset](#ii-justification-and-source-of-dataset)
@@ -21,107 +24,97 @@ Hugo GESLAND – December 2024
 
 ## I - Introduction to Analyzing E-Commerce Conversion Dynamics
 
-The rise of the Internet has significantly transformed shopping behaviors, with a steady increase in online consumers. However, despite these promising opportunities, companies, especially startups, face a critical challenge: understanding what drives a website visitor to make a purchase or abstain from it. As the marketing department of an e-commerce startup, our main objective is to increase revenue by optimizing strategies for promotion, pricing, and personalization. This study focuses on analyzing the behavior of website visitors to understand the customer's decision to make a purchase or not. The goal is to uncover the factors and contexts influencing the conversion of visitors into buyers. We aim to answer a fundamental question: what factors influence whether a website visit results in a purchase or not?
-
-To explore this, we consider three key research questions:
-
-1. What is the relationship between features related to timing (weekend, month, and special day) and revenue generation?
-2. Does the type of visitor (new, returning, or other) impact the decision to purchase?
-3. How do certain web metrics (Bounce Rates, Administrative Duration, Page Value, and Product-Related metrics) influence revenue generation?
+The rapid growth of online shopping has shifted the way consumers interact with e-commerce websites. However, despite the abundance of traffic on these sites, many visitors do not convert into buyers. For e-commerce businesses, understanding the factors that influence a visitor's decision to purchase is crucial for improving conversion rates and increasing revenue. This project focuses on identifying these critical factors by analyzing user behavior data and applying machine learning models to predict purchasing intent. By understanding how various features (such as visitor type, timing, and web engagement) affect conversion, we aim to provide actionable insights that can enhance marketing strategies.
 
 ---
 
 ## II - Justification and Source of Dataset
 
-To address these questions, we use the **Online Shoppers Purchasing Intention Dataset** from the UC Irvine Machine Learning Repository. This dataset was specifically designed to capture user behaviors during unique sessions on an e-commerce website over a one-year period, avoiding any bias related to specific campaigns, user profiles, or periods. It contains 18 variables (10 numeric and 8 categorical) and 12,330 observations, each representing a user session. The dataset includes variables such as time spent on different sections of the website, Google Analytics metrics (bounce rate, page value), the month and weekday of the session, as well as technical information like the browser and operating system used. The target variable is binary, indicating whether a purchase was made (True) or not (False). This dataset, well-balanced in terms of data quality, allows for a detailed exploration of purchasing behaviors and serves as an ideal foundation for developing predictive models using Machine Learning algorithms, with practical applications for optimizing marketing strategies.
+This analysis is based on the **Online Shoppers Purchasing Intention Dataset**, sourced from the UC Irvine Machine Learning Repository. The dataset contains information about online shopper behavior collected over a one-year period. It includes 18 variables (10 numeric and 8 categorical) and 12,330 observations, representing different user sessions on the website. These variables capture key user metrics such as time spent on pages, traffic source, and demographic details. The target variable indicates whether a visitor made a purchase (True) or not (False). The dataset is well-suited for building predictive models to analyze purchasing behavior and optimize strategies for increasing conversions.
 
 ---
 
 ## III - Dataset Overview: The Numeric and Categorical Variables
 
 ### Numeric Variables:
-
-- **Administrative:** Number of pages visited by the visitor related to account management.
-- **Administrative Duration:** Total amount of time (in seconds) spent by the visitor on account management-related pages.
-- **Informational:** Number of pages visited by the visitor related to website communication and address information.
-- **Informational Duration:** Total amount of time (in seconds) spent by the visitor on informational pages.
-- **Product Related:** Number of pages visited by the visitor related to product-related pages.
-- **Product-Related Duration:** Total amount of time (in seconds) spent by the visitor on product-related pages.
-- **Bounce Rate:** Average bounce rate value of the pages visited by the visitor.
-- **Exit Rate:** Average exit rate value of the pages visited by the visitor.
-- **Page Value:** Average page value of the pages visited by the visitor.
-- **Special Day:** Closeness of the site visit time to a special day.
+- **Administrative**: Number of pages visited related to account management.
+- **Administrative Duration**: Time (in seconds) spent on account management pages.
+- **Informational**: Number of pages visited related to website communication and information.
+- **Informational Duration**: Time (in seconds) spent on informational pages.
+- **Product Related**: Number of pages visited related to product-related content.
+- **Product-Related Duration**: Time (in seconds) spent on product-related pages.
+- **Bounce Rate**: Average bounce rate of the pages visited.
+- **Exit Rate**: Average exit rate of the pages visited.
+- **Page Value**: Average value of the pages visited.
+- **Special Day**: Closeness of the visit time to a special day.
 
 ### Categorical Variables:
-
-- **Operating System:** Operating system of the visitor.
-- **Browser:** Browser of the visitor.
-- **Region:** Geographic region from which the session has been initiated by the visitor.
-- **Traffic Type:** Traffic source by which the visitor arrived at the website (e.g., banner, SMS, direct).
-- **Visitor Type:** Whether the visitor is a New Visitor, a Returning Visitor, or Other.
-- **Weekend:** Whether the date of the visit is on a weekend.
-- **Month:** Month of the visit.
-- **Revenue:** Whether the visit has been finalized with a transaction.
+- **Operating System**: The visitor's operating system.
+- **Browser**: The visitor's browser.
+- **Region**: The geographic region from which the session originated.
+- **Traffic Type**: The traffic source (e.g., banner, SMS, direct).
+- **Visitor Type**: Whether the visitor is new, returning, or other.
+- **Weekend**: Whether the visit occurred on a weekend.
+- **Month**: The month of the visit.
+- **Revenue**: Whether the visit resulted in a purchase.
 
 ---
 
 ## IV - Answer to Question 1: What is the relationship between features related to timing (weekend, month, and special day) and revenue generation?
 
-We analyze the **"Weekend"** variable to examine the distribution of orders throughout the week and assess the impact of weekends, determining whether it can be a determining factor.
+The analysis of timing-related variables reveals that certain temporal factors significantly influence revenue generation:
 
-- With only **23.26%** of visitors making a purchase, there is an opportunity to target weekends, as this is when people are most likely to browse and consider making purchases online. Therefore, it would be valuable to implement special weekend promotions to encourage users to complete a purchase at the end of their visit.
-
-- An analysis of the distribution of purchases across months shows that **November** has the best conversion rate. Therefore, understanding why this month has the highest conversion rate is key to implementing promotional offers or other strategies to increase traffic and maintain this rate on a larger scale.
-
-- **Chi-square test** results show that temporal variables (Month, Weekend, Special Day) significantly influence customer revenue. The Month variable has the strongest impact (Chi2 = 384.935, p = 0.000), followed by Special Days (Chi2 = 96.077, p = 0.000) and Weekends (Chi2 = 10.391, p = 0.001).
+- **Weekend**: The conversion rate on weekends is lower, with only 23.26% of visitors making a purchase. Implementing weekend promotions could boost conversions.
+- **Month**: November stands out with the highest conversion rate, suggesting that targeted marketing campaigns during this month could help maintain and scale this performance.
+- **Special Day**: Temporal variables (Month, Weekend, Special Day) significantly influence revenue, with a strong relationship between the month of visit and purchase likelihood (Chi2 = 384.935, p = 0.000).
 
 ---
 
 ## V - Answer to Question 2: Does the type of visitor (new, returning, or other) impact the decision to purchase?
 
-We analyzed the impact of the type of visitor (new, returning, or other) on purchase decisions. The data analysis shows that the type of visitor significantly impacts revenue generation. Although new visitors generally generate higher revenue due to promotions tied to their first purchase, returning visitors account for the largest traffic on the site. However, despite their high number, their purchase-to-no-purchase conversion rate is low, indicating they are not being effectively converted into regular buyers.
+The type of visitor (new, returning, or other) plays a crucial role in determining conversion rates:
 
-- The Chi-squared test result (135.252 with a p-value less than 0.05) indicates a statistically significant relationship between the visitor type and revenue generation.
+- New visitors are often attracted by promotional offers, leading to higher revenue generation. However, returning visitors, although they generate high traffic, have a lower conversion rate.
+- The **Chi-squared test** (135.252, p < 0.05) indicates a statistically significant relationship between visitor type and revenue generation, suggesting that marketing efforts should be focused on both attracting new visitors and re-engaging returning ones effectively.
 
 ---
 
 ## VI - Answer to Question 3: How do certain web metrics (Bounce Rates, Administrative Duration, Page Value, and Product-Related metrics) influence revenue generation?
 
-We created a **correlation matrix** to identify correlations between web metrics and revenue. Key findings:
+Key web metrics play an important role in influencing revenue generation:
 
-- **Visitors who generate revenue** tend to have lower bounce rates, higher page values, and spend more time on product pages.
-- Time spent on **administrative pages** does not significantly impact conversions.
-- Reducing bounce rates and improving page value are crucial for optimizing conversion rates.
+- **Bounce Rate**: Lower bounce rates are correlated with higher revenue generation, indicating that visitors who engage more with the site are more likely to make a purchase.
+- **Page Value**: Visitors with higher page values tend to have higher conversion rates.
+- **Product-Related Duration**: Time spent on product-related pages is positively correlated with purchases.
+- **Administrative Duration**: Time spent on administrative pages does not appear to significantly affect conversions.
 
 ---
 
 ## VII - First Model: Logistic Regression
 
-We used **Logistic Regression** to predict whether a visitor makes a purchase (True or False). The regression model showed uneven performance:
+**Logistic Regression** was applied to predict whether a visitor makes a purchase. The results are as follows:
+- **Accuracy**: 87%
+- **Precision (False)**: 0.88
+- **Precision (True)**: 0.73
+- **Recall (False)**: 0.97
+- **Recall (True)**: 0.34
+- **AUC**: 0.89
 
-- **Accuracy:** 87%
-- **Precision (False):** 0.88
-- **Precision (True):** 0.73
-- **Recall (False):** 0.97
-- **Recall (True):** 0.34
-- **AUC:** 0.89
-
-The model struggles to predict purchases accurately, with a lower recall for buyers.
+This model showed high accuracy but struggled with predicting buyers (low recall for True).
 
 ---
 
 ## VIII - Second Model – Random Forest
 
-The **Random Forest** model showed better overall performance:
+The **Random Forest** model performed better in terms of overall accuracy and recall:
+- **Accuracy**: 89%
+- **Precision (False)**: 0.92
+- **Precision (True)**: 0.71
+- **Recall (False)**: 0.95
+- **Recall (True)**: 0.56
+- **AUC**: 0.91
 
-- **Accuracy:** 89%
-- **Precision (False):** 0.92
-- **Precision (True):** 0.71
-- **Recall (False):** 0.95
-- **Recall (True):** 0.56
-- **AUC:** 0.91
-
-The Random Forest model performs better in detecting non-buyers but struggles with buyers.
+This model performed better at identifying non-buyers but also had a higher recall for buyers.
 
 ---
 
@@ -136,14 +129,19 @@ The Random Forest model performs better in detecting non-buyers but struggles wi
 | **Recall (False)**              | 0.97                | 0.95            |
 | **Recall (True)**               | 0.34                | 0.56            |
 
-The Random Forest model provides better performance overall, but Logistic Regression is more suitable for understanding key influencing factors and providing actionable insights for marketing teams.
+The Random Forest model outperforms Logistic Regression in terms of overall performance, especially for non-buyers, but Logistic Regression is more interpretable for understanding key factors influencing purchases.
 
 ---
 
 ## X - Conclusion: How do factors influence behavior and purchase decisions on a website?
 
-The analysis reveals that key factors like **timing** (weekend, month, special days), **visitor type** (new vs returning), and **web metrics** (bounce rates, page value) influence online purchasing behavior. To maximize revenue, focus on **reducing bounce rates**, improving **page value**, and targeting **new visitors** with **personalized offers**.
+This study reveals that key factors like **timing**, **visitor type**, and **web metrics** significantly influence online purchasing decisions. To improve conversion rates, e-commerce businesses should focus on:
+- Reducing **bounce rates** and improving **page value**.
+- Targeting **new visitors** with personalized offers.
+- Optimizing the user journey, particularly around high-conversion periods like weekends and specific months.
 
-**Logistic regression** remains the preferred model for providing transparent insights to marketing teams, while **Random Forest** can be used for more precise predictions.
+**Logistic Regression** provides transparency for marketing teams, while **Random Forest** is more suitable for precise predictions. Optimizing these factors can significantly improve revenue generation for e-commerce sites.
 
-By optimizing the user experience and focusing on the most impactful factors, companies can significantly increase their website conversion rates and revenue.
+---
+
+This markdown can be directly used in a GitHub repository as a detailed and clear project report.
